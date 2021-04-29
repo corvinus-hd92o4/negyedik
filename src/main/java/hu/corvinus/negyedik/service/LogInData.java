@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInData {
-    private String name;
+public class LogInData {
+
     private String username;
     private int pw;
 }

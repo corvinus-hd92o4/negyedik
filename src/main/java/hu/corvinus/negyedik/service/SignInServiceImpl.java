@@ -1,8 +1,13 @@
 package hu.corvinus.negyedik.service;
 
+import hu.corvinus.negyedik.RegistrationAlreadyExistsException;
+import hu.corvinus.negyedik.RegistrationDoesNotExistException;
 import hu.corvinus.negyedik.dao.SignInDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -11,7 +16,15 @@ public class SignInServiceImpl implements SignInService {
     private final SignInDao signInDao;
 
     @Override
-    public void signIn(SignInData signInData) {
+    public void signIn(SignInData signInData) throws RegistrationAlreadyExistsException {
+
+        Collection<SignInData> all = getAll();
+        for(SignInData data: all){
+            if(data.getUsername().equals(signInData.getUsername())){
+                throw new RegistrationAlreadyExistsException();
+            }
+        }
+
 
         signInDao.save(
                 hu.corvinus.negyedik.dao.SignInData.builder()
@@ -22,4 +35,37 @@ public class SignInServiceImpl implements SignInService {
         );
 
     }
+
+    @Override
+    public void logIn(LogInData logInData) throws RegistrationDoesNotExistException {
+
+        Collection<LogInData> all = getUsernameAndPw();
+        if(all.contains(logInData)==false){
+            throw new RegistrationDoesNotExistException();
+        };
+    }
+
+
+    @Override
+    public Collection<SignInData> getAll() {
+        return signInDao.readAll().stream().map(
+                daoSignIn -> SignInData.builder()
+                        .name(daoSignIn.getName())
+                        .username(daoSignIn.getUsername())
+                        .pw(daoSignIn.getPw())
+                        .build()
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<LogInData> getUsernameAndPw() {
+        return signInDao.readAll().stream().map(
+                daoSignIn -> LogInData.builder()
+                        .username(daoSignIn.getUsername())
+                        .pw(daoSignIn.getPw())
+                        .build()
+        ).collect(Collectors.toList());
+    }
+
+
 }

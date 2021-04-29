@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class SignInData {
     private String name;
     private String username;
-    private String pw;
+    private int pw;
 }
