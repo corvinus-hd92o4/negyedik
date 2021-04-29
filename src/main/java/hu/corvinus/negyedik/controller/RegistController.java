@@ -37,7 +37,7 @@ public class RegistController {
         } catch (RegistrationAlreadyExistsException e) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    e.getMessage()
+                    "Username is already taken."
             );
         }
     }
@@ -54,7 +54,7 @@ public class RegistController {
         } catch (RegistrationDoesNotExistException e) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    e.getMessage()
+                    "Authentication failed. Incorrect username or password"
             );
         }
     }
