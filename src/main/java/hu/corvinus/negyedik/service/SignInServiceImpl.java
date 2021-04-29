@@ -40,9 +40,9 @@ public class SignInServiceImpl implements SignInService {
     public void logIn(LogInData logInData) throws RegistrationDoesNotExistException {
 
         Collection<LogInData> all = getUsernameAndPw();
-        if(all.contains(logInData)==false){
+        if(!all.contains(logInData)){
             throw new RegistrationDoesNotExistException();
-        };
+        }
     }
 
 

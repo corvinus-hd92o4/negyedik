@@ -1,6 +1,5 @@
 package hu.corvinus.negyedik.controller.dto;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
