@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -19,6 +20,6 @@ public class SignInDto {
     private String username;
 
     @NotNull (message = "Password cannot be empty")
-    @Size (min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(regexp = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,})$")
     private String pw;
 }

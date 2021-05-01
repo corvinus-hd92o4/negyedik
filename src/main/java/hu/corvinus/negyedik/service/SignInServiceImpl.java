@@ -1,7 +1,7 @@
 package hu.corvinus.negyedik.service;
 
 import hu.corvinus.negyedik.RegistrationAlreadyExistsException;
-import hu.corvinus.negyedik.RegistrationDoesNotExistException;
+import hu.corvinus.negyedik.LoginFailedException;
 import hu.corvinus.negyedik.dao.SignInDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,11 +37,11 @@ public class SignInServiceImpl implements SignInService {
     }
 
     @Override
-    public void logIn(LogInData logInData) throws RegistrationDoesNotExistException {
+    public void logIn(LogInData logInData) throws LoginFailedException {
 
         Collection<LogInData> all = getUsernameAndPw();
         if(!all.contains(logInData)){
-            throw new RegistrationDoesNotExistException();
+            throw new LoginFailedException();
         }
     }
 

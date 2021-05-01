@@ -1,7 +1,7 @@
 package hu.corvinus.negyedik.controller;
 
 import hu.corvinus.negyedik.RegistrationAlreadyExistsException;
-import hu.corvinus.negyedik.RegistrationDoesNotExistException;
+import hu.corvinus.negyedik.LoginFailedException;
 import hu.corvinus.negyedik.controller.dto.LogInDto;
 import hu.corvinus.negyedik.controller.dto.SignInDto;
 import hu.corvinus.negyedik.service.LogInData;
@@ -25,7 +25,7 @@ public class RegistController {
     private final SignInService signInService;
 
     @PostMapping("/sign-up")
-    public void signIn( @Valid @RequestBody SignInDto signInDto){
+    public void signIn( @Valid  @RequestBody SignInDto signInDto){
         try {
             signInService.signIn(
                     SignInData.builder()
@@ -51,7 +51,7 @@ public class RegistController {
                             .pw((logInDto.getPw()).hashCode())
                             .build()
             );
-        } catch (RegistrationDoesNotExistException e) {
+        } catch (LoginFailedException e) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "Authentication failed. Incorrect username or password"
